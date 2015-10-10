@@ -1,0 +1,1 @@
+﻿using System;namespace PagarmeClient.Base{    public enum NestedModelSerializationRule    {        Full,        IdParameter    }}

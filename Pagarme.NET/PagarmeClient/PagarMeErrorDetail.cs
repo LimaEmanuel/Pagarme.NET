@@ -1,0 +1,2 @@
+﻿using System;using Newtonsoft.Json;namespace PagarmeClient{    public class PagarMeErrorDetail    {        [JsonProperty("type")]        public string Type { get; private set; }        [JsonProperty("parameter_name")]        public string Parameter { get; private set; }        [JsonProperty("message")]        public string Message { get; private set; }        internal PagarMeErrorDetail()        {        }    }}
+
