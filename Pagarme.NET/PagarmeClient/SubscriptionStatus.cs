@@ -1,2 +1,0 @@
-﻿using System;using System.Runtime.Serialization;namespace PagarmeClient{    public enum SubscriptionStatus    {        [Base.EnumValue("")]        None,        [Base.EnumValue("trialing")]        Trialing,        [Base.EnumValue("paid")]        Paid,        [Base.EnumValue("pending_payment")]        PendingPayment,        [Base.EnumValue("unpaid")]        Unpaid,        [Base.EnumValue("canceled")]        Canceled,        [Base.EnumValue("ended")]        Ended    }}
-
