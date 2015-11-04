@@ -69,7 +69,8 @@ namespace PagarmeWebservice
                     _payment_methods = null;
             }
         }
-            [JsonProperty("color")]
+          
+        [JsonProperty("color")]
         public string Color { get; set; }
 
 

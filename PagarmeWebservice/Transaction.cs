@@ -14,27 +14,23 @@ namespace PagarmeWebservice
     {
         #region Properties
         [JsonProperty("status")]
-        private List<string> _status { get; set; }
-        public List<eTransactionStatus> Status
+        private string _status { get; set; }
+        public eTransactionStatus Status
         {
             get
             {
-                var s = new List<eTransactionStatus>();
-                if (_status != null && _status.Count > 0)
+               
+                if (_status != null)
                 {
-                    foreach (var p in _status)
-                        s.Add(Common.ObjectConverter.GetEnumByString<eTransactionStatus>(p));
+                    Common.ObjectConverter.GetEnumByString<eTransactionStatus>(_status);
                 }
-                return null;
+                return default(eTransactionStatus);
             }
             set
             {
-                if (value != null && value.Count > 0)
+                if (value != null)
                 {
-                    foreach (var p in value)
-                    {
-                        _status.Add(p.ToString());
-                    }
+                    _status = value.ToString();
                 }
                 else
                     _status = null;
@@ -43,27 +39,22 @@ namespace PagarmeWebservice
 
 
         [JsonProperty("status_reason")]
-        private List<string> _status_reason { get; set; }
-        public List<eTransactionStatusReason> StatusReason
+        private string _status_reason { get; set; }
+        public eTransactionStatusReason StatusReason
         {
             get
             {
-                var s = new List<eTransactionStatusReason>();
-                if (_status_reason != null && _status_reason.Count > 0)
+                if (_status_reason != null)
                 {
-                    foreach (var p in _status_reason)
-                        s.Add(Common.ObjectConverter.GetEnumByString<eTransactionStatusReason>(p));
+                    Common.ObjectConverter.GetEnumByString<eTransactionStatusReason>(_status_reason);
                 }
-                return null;
+                return default(eTransactionStatusReason);
             }
             set
             {
-                if (value != null && value.Count > 0)
+                if (value != null)
                 {
-                    foreach (var p in value)
-                    {
-                        _status_reason.Add(p.ToString());
-                    }
+                    _status_reason = value.ToString();
                 }
                 else
                     _status_reason = null;
@@ -117,7 +108,7 @@ namespace PagarmeWebservice
 
 
         [JsonProperty("cost")]
-        public int Cost { get; set; }
+        public decimal Cost { get; set; }
 
 
 
@@ -183,7 +174,7 @@ namespace PagarmeWebservice
 
 
         [JsonProperty("metadata")]
-        public string Metadata { get; set; }
+        public Metadata Metadata { get; set; }
 
 
 

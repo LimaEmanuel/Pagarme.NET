@@ -60,6 +60,7 @@
     <Compile Include="Common\ObjectConverter.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="Enum.cs" />
+    <Compile Include="Metadata.cs" />
     <Compile Include="Phone.cs" />
     <Compile Include="Plan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

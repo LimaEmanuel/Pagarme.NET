@@ -34,7 +34,22 @@ namespace PagarmeWebservice
 
 
         [JsonProperty("gender")]
-        public string Gender { get; set; }
+        private string _gender { get; set; }
+
+        public eGender Gender
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(_gender))
+                {
+                    return Common.ObjectConverter.GetEnumByString<eGender>(_gender);
+                }
+                return default(eGender);
+            }
+            set {
+                _gender = value != default(eGender) ? value.ToString() : null;
+            }
+        }
 
 
         [JsonProperty("date_created")]

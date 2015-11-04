@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Asn1.CryptoPro;
 using PagarmeWebservice.Base;
 
 namespace PagarmeWebservice
@@ -63,6 +64,8 @@ namespace PagarmeWebservice
                 {
                     foreach (var p in value)
                     {
+                        if (_payment_methods == null)
+                            _payment_methods = new List<string>();
                         _payment_methods.Add(p.ToString());
                     }
                 }
@@ -71,17 +74,44 @@ namespace PagarmeWebservice
             }
         }
 
-
-
         [JsonProperty("current_period_start")]
-        public string CurrentPeriodStart { get; set; }
+        private string _currentPeriodStart;
 
-
+        public DateTime? CurrentPeriodStart
+        {
+            get
+            {
+                try { return DateTime.Parse(_currentPeriodStart); }
+                catch (Exception) { return null; }
+            }
+            set
+            {
+                DateTime dt = value ?? DateTime.MaxValue;
+                if (dt != DateTime.MaxValue)
+                    _currentPeriodStart = dt.ToString("O");
+                _currentPeriodStart = null;
+            }
+        }
 
 
         [JsonProperty("current_period_end")]
-        public string CurrentPeriodEnd { get; set; }
+        private string _currentPeriodEnd;
 
+        public DateTime? CurrentPeriodEnd
+        {
+            get
+            {
+                try { return DateTime.Parse(_currentPeriodEnd); }
+                catch (Exception) { return null; }
+            }
+            set
+            {
+                DateTime dt = value ?? DateTime.MaxValue;
+                if (dt != DateTime.MaxValue)
+                    _currentPeriodEnd = dt.ToString("O");
+                _currentPeriodEnd = null;
+            }
+        }
 
 
         [JsonProperty("charges")]
@@ -90,9 +120,25 @@ namespace PagarmeWebservice
 
 
         [JsonProperty("status")]
-        public string Status { get; set; }
-
-
+        private string _status { get; set; }
+        public eSubscriptionStatus Status {
+            get
+            {
+                try
+                {
+                    if (!string.IsNullOrEmpty(_status))
+                        return Common.ObjectConverter.GetEnumByString<eSubscriptionStatus>(_status);
+                    return default(eSubscriptionStatus);
+                }
+                catch (Exception)
+                {
+                    return default(eSubscriptionStatus);
+                }
+            }
+            set {
+                _status = default(eSubscriptionStatus) != value ? value.ToString() : null;
+            }
+        }
 
         [JsonProperty("phone")]
         public string Phone { get; set; }
@@ -143,17 +189,19 @@ namespace PagarmeWebservice
         {
             return Get<Subscription>(EndPoint, id.ToString());
         }
-        public static Subscription GetAll()
+        public static List<Subscription> GetAll()
         {
-            return Get<Subscription>(EndPoint);
+            return Get<List<Subscription>>(EndPoint);
         }
         public void Create()
         {
-            Post(EndPoint, this);
+            var obj = Post(EndPoint, this);
+            ReloadFrom(obj);
         }
         public void Update()
         {
-            Put<Subscription>(EndPoint, this, this.Id.ToString());
+            Subscription obj = Put<Subscription>(EndPoint, this, this.Id.ToString());
+            ReloadFrom(obj);
         }
         public static Subscription CancelById(int id)
         {

@@ -61,7 +61,22 @@ namespace PagarmeWebservice
             }
         }
         [JsonProperty("brand")]
-        public string Brand { get; set; }
+        private string _brand { get; set; }
+
+        public eCreditCardBrand Brand
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(_brand))
+                {
+                    return Common.ObjectConverter.GetEnumByString<eCreditCardBrand>(_brand);
+                }
+                return default(eCreditCardBrand);
+            }
+            set {
+                _brand = value != default(eCreditCardBrand) ? value.ToString() : null;
+            }
+        }
 
 
         [JsonProperty("holder_name")]
@@ -102,6 +117,9 @@ namespace PagarmeWebservice
 
         [JsonProperty("cvv")]
         public string Cvv { get; set; }
+
+        [JsonProperty("card_hash")]
+        public string CardHash { get; set; }
         #endregion
         #region Public methods
         public static Card GetById(string id)

@@ -30,4 +30,26 @@ namespace PagarmeWebservice
         no_acquirer = 4,
         acquirer_timeout = 5
     }
+
+    public enum eSubscriptionStatus
+    {
+        trialing = 1,
+        paid = 2,
+        pending_payment = 3,
+        unpaid = 4,
+        canceled = 5,
+        ended = 6
+    }
+
+    public enum eGender
+    {
+        female = 1,
+        male = 2
+    }
+
+    public enum eCreditCardBrand
+    {
+        visa = 1,
+        mastercard = 2
+    }
 }
