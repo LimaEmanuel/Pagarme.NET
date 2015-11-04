@@ -52,4 +52,10 @@ namespace PagarmeWebservice
         visa = 1,
         mastercard = 2
     }
+
+    public enum eCustomerDocumentType
+    {
+        cpf = 1,
+        cnpj = 2
+    }
 }

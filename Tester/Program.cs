@@ -12,9 +12,10 @@ namespace Tester
     {
         static void Main(string[] args)
         {
-            CardTest();
-            PlanFullTest();
-            SubsTest();
+            //CardTest();
+            //PlanFullTest();
+            //SubsTest();
+            TestTransactions();
             Console.Read();
         }
         #region Card
@@ -117,7 +118,7 @@ namespace Tester
             {
                 Email = "jose.silva@pagarme.me",
                 Name = "José Silva",
-                Phones = new List<Phone>{new Phone{Ddd="11",Ddi = "+55",Number = "987456321"}}
+                Phones = new List<Phone> { new Phone { Ddd = "11", Ddi = "+55", Number = "987456321" } }
             };
             var obj = new Subscription
             {
@@ -147,6 +148,64 @@ namespace Tester
         public static Subscription SubsCancel(Subscription obj)
         {
             return null;
+        }
+        #endregion
+        #region Transaction
+        private static void TestTransactions()
+        {
+            CreditCardTransaction();
+        }
+
+        private static void CreditCardTransaction()
+        {
+            var obj = new Card
+            {
+                CardNumber = "5216005329772352",
+                CardExpirationDate = "0822",
+                HolderName = "Jose Silva",
+                Cvv = "544"
+            };
+            obj.Create();
+            var t = new Transaction
+            {
+                Amount = 9999, //R$ 99,99
+                CardId = obj.Id,
+                SoftDescriptor = "", //Invoice description
+                Capture = false, //Just authorize
+                Metadata = new Metadata { IdData = 1, NomeData = "Sale 1" }, //Just to tag
+                Customer = new Customer
+                {
+                    Addresses = new List<Address>
+                    {
+                        new Address
+                        {
+                            City = "São Paulo",
+                            Complementary = "AP3",
+                            Neighborhood = "Bela Vista",
+                            Country = "BR",
+                            State = "SP",
+                            Street = "Av Paulista",
+                            StreetNumber = "1000",
+                            Zipcode = "01318002"
+                        }
+                    },
+                    BornAt = new DateTime(1980, 1, 1),
+                    DocumentNumber = "02460608322",
+                    DocumentType = eCustomerDocumentType.cpf,
+                    Email = "emanuel.metallica@hotmail.com",
+                    Gender = eGender.male,
+                    Name = "Emanuel Lima",
+                    Phones = new List<Phone>{
+                        new Phone
+                        {
+                            Ddd = "11",
+                            Ddi = "55",
+                            Number = "984628620"
+                        }
+                    }
+                }
+            };
+            t.Create();
         }
         #endregion
     }

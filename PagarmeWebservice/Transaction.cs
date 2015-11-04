@@ -13,13 +13,15 @@ namespace PagarmeWebservice
     public class Transaction : BaseModel
     {
         #region Properties
+
         [JsonProperty("status")]
         private string _status { get; set; }
+
         public eTransactionStatus Status
         {
             get
             {
-               
+
                 if (_status != null)
                 {
                     Common.ObjectConverter.GetEnumByString<eTransactionStatus>(_status);
@@ -40,6 +42,7 @@ namespace PagarmeWebservice
 
         [JsonProperty("status_reason")]
         private string _status_reason { get; set; }
+
         public eTransactionStatusReason StatusReason
         {
             get
@@ -178,15 +181,20 @@ namespace PagarmeWebservice
 
 
 
-        [JsonProperty("boleto_expiration_date")]
-        private string _boleto_expiration_date;
+        [JsonProperty("boleto_expiration_date")] private string _boleto_expiration_date;
 
         public DateTime? BoletoExpirationDate
         {
             get
             {
-                try { return DateTime.Parse(_boleto_expiration_date); }
-                catch (Exception) { return null; }
+                try
+                {
+                    return DateTime.Parse(_boleto_expiration_date);
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
             }
             set
             {
@@ -199,15 +207,20 @@ namespace PagarmeWebservice
 
 
 
-        [JsonProperty("date_created")]
-        private string _date_created;
+        [JsonProperty("date_created")] private string _date_created;
 
         public DateTime? DateCreated
         {
             get
             {
-                try { return DateTime.Parse(_date_created); }
-                catch (Exception) { return null; }
+                try
+                {
+                    return DateTime.Parse(_date_created);
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
             }
             set
             {
@@ -217,15 +230,21 @@ namespace PagarmeWebservice
                 _date_created = null;
             }
         }
-        [JsonProperty("date_updated")]
-        private string _date_updated;
+
+        [JsonProperty("date_updated")] private string _date_updated;
 
         public DateTime? DateUpdated
         {
             get
             {
-                try { return DateTime.Parse(_date_updated); }
-                catch (Exception) { return null; }
+                try
+                {
+                    return DateTime.Parse(_date_updated);
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
             }
             set
             {
@@ -237,12 +256,40 @@ namespace PagarmeWebservice
         }
 
 
-        #endregion
+        /// <summary>
+        /// Required when create, or card_id
+        /// </summary>
+        [JsonProperty("card_hash")]
+        public string CardHash { get; set; }
+
+
+        /// <summary>
+        /// Required when create, or card_hash
+        /// </summary>
+        [JsonProperty("card_id")]
+        public string CardId { get; set; }
+
+
+
+        [JsonProperty("capture")]
+        public bool Capture { get; set; }
+
+
+
+        [JsonProperty("customer")]
+        public Customer Customer { get; set; }
+
+    #endregion
 
         private static string EndPoint = "/transactions";
         public static CardHashKey GetCardHashKey()
         {
             return Get<CardHashKey>(EndPoint + "/card_hash_key", null, true);
+        }
+        public void Create()
+        {
+            var obj = Post(EndPoint, this);
+            ReloadFrom(obj);
         }
     }
 }
